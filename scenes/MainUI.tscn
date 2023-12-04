@@ -1,14 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm3webtxqrahb"]
+[gd_scene load_steps=4 format=3 uid="uid://cm3webtxqrahb"]
 
+[ext_resource type="Script" path="res://scenes/MainUI.gd" id="1_54ajb"]
 [ext_resource type="Theme" uid="uid://icelelyiar00" path="res://assetsetc/maintheme.tres" id="1_av0yc"]
+[ext_resource type="Texture2D" uid="uid://biadtrnga68bb" path="res://assetsetc/question_exchange_FILL0_wght400_GRAD0_opsz24.svg" id="3_ugqyh"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 0.998
+anchor_bottom = 0.783
+offset_right = 7.29596
+offset_bottom = 9.98395
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_54ajb")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -24,65 +28,47 @@ size_flags_horizontal = 3
 theme = ExtResource("1_av0yc")
 alignment = 1
 
+[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="btnRefreshQuestion" type="TextureButton" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+texture_normal = ExtResource("3_ugqyh")
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 400)
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Question" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "This is the question!"
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(0, 150)
+[node name="A1" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer1
 "
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(0, 150)
+[node name="A2" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer2
 "
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer4"]
-custom_minimum_size = Vector2(0, 150)
+[node name="A3" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer3
 "
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/btnRefreshQuestion" to="." method="_on_btn_refresh_question_pressed"]
