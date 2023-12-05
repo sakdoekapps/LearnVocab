@@ -42,9 +42,14 @@ func _on_btn_refresh_question_pressed():
 	var wordtypesql = "TRUE" if wordtype == "all" else "word_types like '%" + wordtype + "%'"
 	
 	db.open_db()
-	db.query("select native_word from LanguageWordList where " + wordtypesql + ";")
+	db.query("select native_word, foreign_word from LanguageWordList where " + wordtypesql + ";")
 	print(db.query_result)
 	
-	# db.query_result is an array of "dictionaries" (I think)
 
+func _on_btn_exit_pressed():
+	get_tree().quit()
+
+
+func _on_btn_settings_pressed():
+	# Open the app settings scene
 	pass # Replace with function body.

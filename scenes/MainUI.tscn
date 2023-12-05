@@ -1,20 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://cm3webtxqrahb"]
+[gd_scene load_steps=6 format=3 uid="uid://cm3webtxqrahb"]
 
 [ext_resource type="Script" path="res://scenes/MainUI.gd" id="1_54ajb"]
 [ext_resource type="Theme" uid="uid://icelelyiar00" path="res://assetsetc/maintheme.tres" id="1_av0yc"]
 [ext_resource type="Texture2D" uid="uid://biadtrnga68bb" path="res://assetsetc/question_exchange_FILL0_wght400_GRAD0_opsz24.svg" id="3_ugqyh"]
+[ext_resource type="Texture2D" uid="uid://bmybnh4y0ondt" path="res://assetsetc/settings-24px(materialicons).svg" id="4_0ck4f"]
+[ext_resource type="Texture2D" uid="uid://14mane8vi1aa" path="res://assetsetc/exit_to_app-24px(materialicons).svg" id="4_3i3b5"]
 
-[node name="Control" type="Control"]
+[node name="MainUIControl" type="Control"]
 layout_mode = 3
 anchor_right = 0.998
 anchor_bottom = 0.783
-offset_right = 7.29596
-offset_bottom = 9.98395
+offset_right = -0.704041
+offset_bottom = 9.98401
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_54ajb")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="BaseHBox" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,53 +24,89 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="BaseVBox" type="VBoxContainer" parent="BaseHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_av0yc")
 alignment = 1
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="DeadZoneTop" type="Control" parent="BaseHBox/BaseVBox"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+
+[node name="TopPanel" type="HBoxContainer" parent="BaseHBox/BaseVBox"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="HSpace" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="btnRefreshQuestion" type="TextureButton" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(50, 50)
+[node name="btnRefreshQuestion" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 texture_normal = ExtResource("3_ugqyh")
+stretch_mode = 0
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="HSpace2" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="btnSettings" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture_normal = ExtResource("4_0ck4f")
+stretch_mode = 0
+
+[node name="HSpace3" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="btnExit" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture_normal = ExtResource("4_3i3b5")
+stretch_mode = 0
+
+[node name="HSpace4" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSpace" type="Control" parent="BaseHBox/BaseVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Question" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="Question" type="Button" parent="BaseHBox/BaseVBox"]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "This is the question!"
 
-[node name="A1" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="A1" type="Button" parent="BaseHBox/BaseVBox"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer1
 "
 
-[node name="A2" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="A2" type="Button" parent="BaseHBox/BaseVBox"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer2
 "
 
-[node name="A3" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="A3" type="Button" parent="BaseHBox/BaseVBox"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer3
 "
 
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/btnRefreshQuestion" to="." method="_on_btn_refresh_question_pressed"]
+[connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnRefreshQuestion" to="." method="_on_btn_refresh_question_pressed"]
+[connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnSettings" to="." method="_on_btn_settings_pressed"]
+[connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnExit" to="." method="_on_btn_exit_pressed"]
