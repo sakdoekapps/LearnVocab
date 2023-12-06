@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp0rlqw2fu41u"]
+
+[ext_resource type="Script" path="res://scenes/SettingsUI.gd" id="1_fdkav"]
+
+[node name="SettingsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fdkav")
+
+[node name="SettingsTable" type="ItemList" parent="."]
+layout_mode = 0
+offset_right = 643.0
+offset_bottom = 1076.0
+auto_height = true
+max_columns = 4

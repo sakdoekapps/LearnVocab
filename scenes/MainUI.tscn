@@ -8,12 +8,13 @@
 
 [node name="MainUIControl" type="Control"]
 layout_mode = 3
-anchor_right = 0.998
-anchor_bottom = 0.783
-offset_right = -0.704041
-offset_bottom = 9.98401
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_54ajb")
 
 [node name="BaseHBox" type="HBoxContainer" parent="."]
@@ -106,6 +107,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Answer3
 "
+
+[node name="VSpace2" type="Control" parent="BaseHBox/BaseVBox"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnRefreshQuestion" to="." method="_on_btn_refresh_question_pressed"]
 [connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnSettings" to="." method="_on_btn_settings_pressed"]

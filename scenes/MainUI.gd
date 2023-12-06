@@ -39,6 +39,18 @@ func _on_btn_refresh_question_pressed():
 	# auxiliary verbs, do they go into that list? Maybe add all this into options
 	
 	
+	# Sort of starting to get the valid list of words, but not complete
+	#Select * from LanguageWordList lwl left join (
+		#SELECT 
+		   #native_language,
+	   	   #foreign_language, 
+		   #question_word, 
+		   #sum(correct) / sum(answered) as correctperc,
+		   #max(time_answered) as lastanswered,
+		   #JULIANDAY('now') - max(time_answered) as days_since_last_answered
+		#from QuestionTransactions qt
+		#group by native_language, foreign_language, question_word ) t on t.question_word = lwl.native_word
+	
 	var wordtypesql = "TRUE" if wordtype == "all" else "word_types like '%" + wordtype + "%'"
 	
 	db.open_db()
