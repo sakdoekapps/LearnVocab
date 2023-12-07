@@ -3,6 +3,8 @@ extends Control
 var base_db_path := "res://database/Zulu.db"
 var db_path := "user://database/Zulu.db"
 var db
+var settingsUIscene = load("res://scenes/SettingsUI.tscn")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,20 +40,20 @@ func _on_btn_refresh_question_pressed():
 	# another solution is to when looking for verb, look for like %verb% and not like %adverb%? Maybe add lots of options
 	# auxiliary verbs, do they go into that list? Maybe add all this into options
 	
-	
-	# Sort of starting to get the valid list of words, but not complete
-	#Select * from LanguageWordList lwl left join (
-		#SELECT 
-		   #native_language,
-	   	   #foreign_language, 
-		   #question_word, 
-		   #sum(correct) / sum(answered) as correctperc,
-		   #max(time_answered) as lastanswered,
-		   #JULIANDAY('now') - max(time_answered) as days_since_last_answered
-		#from QuestionTransactions qt
-		#group by native_language, foreign_language, question_word ) t on t.question_word = lwl.native_word
-	
 	var wordtypesql = "TRUE" if wordtype == "all" else "word_types like '%" + wordtype + "%'"
+	# Sort of starting to get the valid list of words, but not complete
+	var sql = "Select * from LanguageWordList lwl left join ( " + \
+		"SELECT native_language, " + \
+		"   foreign_language, " + \
+		"   question_word, " + \
+		"   sum(correct) / sum(answered) as correctperc, " + \
+		"   max(time_answered) as lastanswered, " + \
+		"   JULIANDAY('now') - max(time_answered) as days_since_last_answered " + \
+		"from QuestionTransactions qt " + \
+		"WHERE " + wordtypesql + \
+		"group by native_language, foreign_language, question_word ) t on t.question_word = lwl.native_word"
+	
+
 	
 	db.open_db()
 	db.query("select native_word, foreign_word from LanguageWordList where " + wordtypesql + ";")
@@ -63,5 +65,7 @@ func _on_btn_exit_pressed():
 
 
 func _on_btn_settings_pressed():
-	# Open the app settings scene
-	pass # Replace with function body.
+	# Try not to unload this scene, we want the DB to stay in memory, 
+	# we don't want to constantly close/open the DB
+	get_tree().change_scene_to_packed(settingsUIscene)
+

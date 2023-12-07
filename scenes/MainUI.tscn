@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://scenes/MainUI.gd" id="1_54ajb"]
 [ext_resource type="Theme" uid="uid://icelelyiar00" path="res://assetsetc/maintheme.tres" id="1_av0yc"]
-[ext_resource type="Texture2D" uid="uid://biadtrnga68bb" path="res://assetsetc/question_exchange_FILL0_wght400_GRAD0_opsz24.svg" id="3_ugqyh"]
-[ext_resource type="Texture2D" uid="uid://bmybnh4y0ondt" path="res://assetsetc/settings-24px(materialicons).svg" id="4_0ck4f"]
-[ext_resource type="Texture2D" uid="uid://14mane8vi1aa" path="res://assetsetc/exit_to_app-24px(materialicons).svg" id="4_3i3b5"]
+[ext_resource type="Texture2D" uid="uid://dh7x8qwb8ucpk" path="res://assetsetc/question_exchange_FILL0_wght400_GRAD0_opsz24.png" id="3_vsdi6"]
+[ext_resource type="Texture2D" uid="uid://brib5g0dw5x5v" path="res://assetsetc/baseline_settings_white_48dp.png" id="4_rumv8"]
+[ext_resource type="Texture2D" uid="uid://dqqbmdcvg4swm" path="res://assetsetc/baseline_exit_to_app_white_48dp.png" id="5_6arda"]
 
 [node name="MainUIControl" type="Control"]
 layout_mode = 3
@@ -47,8 +47,10 @@ size_flags_vertical = 3
 [node name="btnRefreshQuestion" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture_normal = ExtResource("3_ugqyh")
-stretch_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture_normal = ExtResource("3_vsdi6")
+stretch_mode = 4
 
 [node name="HSpace2" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
 layout_mode = 2
@@ -58,8 +60,9 @@ size_flags_vertical = 3
 [node name="btnSettings" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture_normal = ExtResource("4_0ck4f")
-stretch_mode = 0
+size_flags_horizontal = 3
+texture_normal = ExtResource("4_rumv8")
+stretch_mode = 4
 
 [node name="HSpace3" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
 layout_mode = 2
@@ -69,8 +72,9 @@ size_flags_vertical = 3
 [node name="btnExit" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture_normal = ExtResource("4_3i3b5")
-stretch_mode = 0
+size_flags_horizontal = 3
+texture_normal = ExtResource("5_6arda")
+stretch_mode = 4
 
 [node name="HSpace4" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
 layout_mode = 2
