@@ -90,6 +90,7 @@ custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "This is the question!"
+flat = true
 
 [node name="A1" type="Button" parent="BaseHBox/BaseVBox"]
 custom_minimum_size = Vector2(0, 100)
@@ -119,3 +120,6 @@ size_flags_vertical = 3
 [connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnRefreshQuestion" to="." method="_on_btn_refresh_question_pressed"]
 [connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnSettings" to="." method="_on_btn_settings_pressed"]
 [connection signal="pressed" from="BaseHBox/BaseVBox/TopPanel/btnExit" to="." method="_on_btn_exit_pressed"]
+[connection signal="pressed" from="BaseHBox/BaseVBox/A1" to="." method="_on_a_1_pressed"]
+[connection signal="pressed" from="BaseHBox/BaseVBox/A2" to="." method="_on_a_2_pressed"]
+[connection signal="pressed" from="BaseHBox/BaseVBox/A3" to="." method="_on_a_3_pressed"]

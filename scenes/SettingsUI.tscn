@@ -24,11 +24,6 @@ select_mode = 1
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
-[node name="HSpace" type="Control" parent="TopPanel"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="btnExitNoSave" type="TextureButton" parent="TopPanel"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
@@ -37,11 +32,6 @@ size_flags_vertical = 4
 texture_normal = ExtResource("2_ojmiy")
 stretch_mode = 4
 
-[node name="HSpace2" type="Control" parent="TopPanel"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="btnSaveQuit" type="TextureButton" parent="TopPanel"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
@@ -49,10 +39,5 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 texture_normal = ExtResource("3_njf5v")
 stretch_mode = 4
-
-[node name="HSpace3" type="Control" parent="TopPanel"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [connection signal="pressed" from="TopPanel/btnExitNoSave" to="." method="_on_btn_exit_no_save_pressed"]
