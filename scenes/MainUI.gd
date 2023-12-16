@@ -8,7 +8,8 @@ var native_word_list = []
 var foreign_word_list = []
 var question_word
 var answer_word
-
+var correctUI = load("res://assetsetc/kenneyUI-green.tres")
+var normalUI = load("res://assetsetc/kenneyUI.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -110,8 +111,10 @@ func _on_btn_settings_pressed():
 
 func answer_pressed(caller):
 	print(caller.text + " " + answer_word)
-	pass # Replace with function body.
-
+	if answer_word == caller.text:
+		caller.Theme = correctUI
+		#Todo: make correct (noncaller) turn green
+	
 
 func _on_a_1_pressed():
 	answer_pressed($BaseHBox/BaseVBox/A1)
