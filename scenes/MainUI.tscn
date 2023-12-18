@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cm3webtxqrahb"]
+[gd_scene load_steps=9 format=3 uid="uid://cm3webtxqrahb"]
 
 [ext_resource type="Script" path="res://scenes/MainUI.gd" id="1_54ajb"]
 [ext_resource type="Theme" uid="uid://b3cqyc4on7014" path="res://assetsetc/kenneyUI-blue.tres" id="1_kic2i"]
 [ext_resource type="Texture2D" uid="uid://dh7x8qwb8ucpk" path="res://assetsetc/question_exchange_FILL0_wght400_GRAD0_opsz24.png" id="3_vsdi6"]
 [ext_resource type="Texture2D" uid="uid://brib5g0dw5x5v" path="res://assetsetc/baseline_settings_white_48dp.png" id="4_rumv8"]
 [ext_resource type="Texture2D" uid="uid://dqqbmdcvg4swm" path="res://assetsetc/baseline_exit_to_app_white_48dp.png" id="5_6arda"]
+[ext_resource type="Texture2D" uid="uid://bry3tyhl8xvaw" path="res://assetsetc/outline_bar_chart_white_48dp.png" id="5_t1hus"]
 [ext_resource type="Theme" uid="uid://i1bobpy7huo7" path="res://assetsetc/kenneyUI.tres" id="6_qkaxs"]
 
 [sub_resource type="Theme" id="Theme_jy47g"]
@@ -74,6 +75,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="btnStats" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("5_t1hus")
+stretch_mode = 4
+
+[node name="HSpace5" type="Control" parent="BaseHBox/BaseVBox/TopPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="btnExit" type="TextureButton" parent="BaseHBox/BaseVBox/TopPanel"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
@@ -125,7 +138,7 @@ theme_override_font_sizes/font_size = 48
 text = "Answer3
 "
 
-[node name="VSpace2" type="Control" parent="BaseHBox/BaseVBox"]
+[node name="VSpace2" type="Label" parent="BaseHBox/BaseVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 

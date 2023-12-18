@@ -24,6 +24,10 @@ window/size/viewport_height=1080
 
 project/assembly_name="Learn Vocab"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/easy_charts/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="mobile"

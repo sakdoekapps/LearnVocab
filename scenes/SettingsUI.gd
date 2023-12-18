@@ -14,15 +14,14 @@ func _ready():
 	
 	$Tree.set_column_title(0,"Setting")
 	$Tree.set_column_title(1,"Value")
-	var root = $Tree.create_item()
+	var root : TreeItem = $Tree.create_item()
+ 	
 	
 	for setting in db.query_result:
 		var asetting = $Tree.create_item(root)
+		asetting.get_parent().set_text(0,setting["Class"])
 		asetting.set_text(0,setting["SettingString"])
 		asetting.set_text(1,setting["SettingValue"])
-	
-		
-	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

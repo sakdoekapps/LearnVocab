@@ -4,6 +4,8 @@ var base_db_path := "res://database/Zulu.db"
 var db_path := "user://database/Zulu.db"
 var db
 var settingsUIscene = load("res://scenes/SettingsUI.tscn")
+var native_language
+var foreign_language
 var native_word_list = []
 var foreign_word_list = []
 var question_word
@@ -11,7 +13,8 @@ var answer_word
 var correctUI = load("res://assetsetc/kenneyUI-green.tres")
 var normalUI = load("res://assetsetc/kenneyUI-blue.tres")
 var wrongUI = load("res://assetsetc/kenneyUI-red.tres")
-
+var timeasked
+var submit_answer_list = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,6 +46,9 @@ func _process(delta):
 	pass
 
 func init_button_themes():
+	$BaseHBox/BaseVBox/A1.text = ""
+	$BaseHBox/BaseVBox/A2.text = ""
+	$BaseHBox/BaseVBox/A3.text = ""
 	$BaseHBox/BaseVBox/A1.theme = normalUI
 	$BaseHBox/BaseVBox/A2.theme = normalUI
 	$BaseHBox/BaseVBox/A3.theme = normalUI
@@ -60,8 +66,7 @@ func _on_btn_refresh_question_pressed():
 	# Sort of starting to get the valid list of words, but not complete
 	# TODO: Add ways to ignore "known" words
 	var sql = "Select * from LanguageWordList lwl left join ( " + \
-		"SELECT native_language, " + \
-		"   foreign_language, " + \
+		"SELECT " + \
 		"   question_word, " + \
 		"   sum(correct) / sum(answered) as correctperc, " + \
 		"   max(time_answered) as lastanswered, " + \
@@ -80,6 +85,9 @@ func _on_btn_refresh_question_pressed():
 		native_word_list.append(i["native_word"])
 		foreign_word_list.append(i["foreign_word"])
 	
+	native_language = db.query_result[0]["native_language"]
+	foreign_language = db.query_result[0]["foreign_language"]
+	
 	var q = randi_range(0,9)
 	question_word = foreign_word_list[q]
 	answer_word = native_word_list[q]
@@ -92,12 +100,16 @@ func _on_btn_refresh_question_pressed():
 	answer_list.append(answer_word)
 	
 	# in 1 means 0 and 1 I think...
-	for i in 2:
+	for i in range(2):
 		q = randi_range(0,native_word_list.size()-1)
 		answer_list.append(native_word_list[q])
 		native_word_list.remove_at(q)
 	
+	submit_answer_list = answer_list.duplicate()
+	$BaseHBox/BaseVBox/VSpace2.text = str(submit_answer_list)
+	
 	$BaseHBox/BaseVBox/Question.text = '\n[center]' + question_word + '\n [font_size=30]' + db.query_result[answerindex]["word_types"] + "[/font_size][/center]"
+	timeasked = Time.get_datetime_string_from_system(true)
 	
 	q = randi_range(0,answer_list.size()-1)
 	$BaseHBox/BaseVBox/A1.text = answer_list[q]
@@ -106,6 +118,7 @@ func _on_btn_refresh_question_pressed():
 	$BaseHBox/BaseVBox/A2.text = answer_list[q]
 	answer_list.remove_at(q)
 	$BaseHBox/BaseVBox/A3.text = answer_list[0]
+	
 
 
 func _on_btn_exit_pressed():
@@ -119,10 +132,13 @@ func _on_btn_settings_pressed():
 
 
 func answer_pressed(caller):
+	var correct
 	print(caller.text + " " + answer_word)
 	if answer_word == caller.text:
 		caller.theme = correctUI
+		correct = true
 	else:
+		correct = false
 		caller.theme = wrongUI
 		if $BaseHBox/BaseVBox/A1.text == answer_word:
 			$BaseHBox/BaseVBox/A1.theme = correctUI
@@ -130,11 +146,28 @@ func answer_pressed(caller):
 			$BaseHBox/BaseVBox/A2.theme = correctUI
 		if $BaseHBox/BaseVBox/A3.text == answer_word:
 			$BaseHBox/BaseVBox/A3.theme = correctUI
-		
-		
-		#TODO: submit to DB, then wait a second or so (maybe setting?) and refresh the question
-		
+
+	submit_transaction_data("Normal", native_language, foreign_language, question_word, answer_word, \
+		submit_answer_list, true, correct, timeasked, Time.get_datetime_string_from_system(true))
 	
+
+	await get_tree().create_timer(10.0)
+	caller.release_focus()
+	_on_btn_refresh_question_pressed()
+
+		
+
+# Function to submit data to the database
+func submit_transaction_data(question_type, native_language, foreign_language, question_word, answer_word, answer_list, answered, correct, time_asked, time_answered):
+	var insertRowQuery = "INSERT INTO QuestionTransactions (\
+		question_type, native_language, foreign_language,\
+		question_word, answer_word, answer_list,\
+		answered, correct, time_asked, time_answered\
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+
+	var insertRowParams = [question_type, native_language, foreign_language, question_word, answer_word, str(answer_list), answered, correct, time_asked, time_answered]
+
+	db.query_with_bindings(insertRowQuery, insertRowParams)
 
 func _on_a_1_pressed():
 	answer_pressed($BaseHBox/BaseVBox/A1)
