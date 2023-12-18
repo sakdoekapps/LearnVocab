@@ -9,7 +9,9 @@ var foreign_word_list = []
 var question_word
 var answer_word
 var correctUI = load("res://assetsetc/kenneyUI-green.tres")
-var normalUI = load("res://assetsetc/kenneyUI.tres")
+var normalUI = load("res://assetsetc/kenneyUI-blue.tres")
+var wrongUI = load("res://assetsetc/kenneyUI-red.tres")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,14 +33,23 @@ func _ready():
 	db = SQLite.new()
 	db.path = db_path
 	
+	# give us a question right away?
+	_on_btn_refresh_question_pressed()
+	
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
+func init_button_themes():
+	$BaseHBox/BaseVBox/A1.theme = normalUI
+	$BaseHBox/BaseVBox/A2.theme = normalUI
+	$BaseHBox/BaseVBox/A3.theme = normalUI
+	
 
 func _on_btn_refresh_question_pressed():
+	init_button_themes()
 	var wordtype = "noun"
 	# ISSUE: where pronouns are also included as nouns, adverbs in verbs etc. data cleansing might help this?
 	# maybe verb should become "verbs". It looks like nouns are already nouns but verb is not verbs
@@ -72,6 +83,7 @@ func _on_btn_refresh_question_pressed():
 	var q = randi_range(0,9)
 	question_word = foreign_word_list[q]
 	answer_word = native_word_list[q]
+	var answerindex = q
 	
 	foreign_word_list.remove_at(q)
 	native_word_list.remove_at(q)
@@ -85,7 +97,7 @@ func _on_btn_refresh_question_pressed():
 		answer_list.append(native_word_list[q])
 		native_word_list.remove_at(q)
 	
-	$BaseHBox/BaseVBox/Question.text = question_word
+	$BaseHBox/BaseVBox/Question.text = '\n[center]' + question_word + '\n [font_size=30]' + db.query_result[answerindex]["word_types"] + "[/font_size][/center]"
 	
 	q = randi_range(0,answer_list.size()-1)
 	$BaseHBox/BaseVBox/A1.text = answer_list[q]
@@ -95,8 +107,6 @@ func _on_btn_refresh_question_pressed():
 	answer_list.remove_at(q)
 	$BaseHBox/BaseVBox/A3.text = answer_list[0]
 
-	
-	
 
 func _on_btn_exit_pressed():
 	get_tree().quit()
@@ -108,12 +118,22 @@ func _on_btn_settings_pressed():
 	get_tree().change_scene_to_packed(settingsUIscene)
 
 
-
 func answer_pressed(caller):
 	print(caller.text + " " + answer_word)
 	if answer_word == caller.text:
-		caller.Theme = correctUI
-		#Todo: make correct (noncaller) turn green
+		caller.theme = correctUI
+	else:
+		caller.theme = wrongUI
+		if $BaseHBox/BaseVBox/A1.text == answer_word:
+			$BaseHBox/BaseVBox/A1.theme = correctUI
+		if $BaseHBox/BaseVBox/A2.text == answer_word:
+			$BaseHBox/BaseVBox/A2.theme = correctUI
+		if $BaseHBox/BaseVBox/A3.text == answer_word:
+			$BaseHBox/BaseVBox/A3.theme = correctUI
+		
+		
+		#TODO: submit to DB, then wait a second or so (maybe setting?) and refresh the question
+		
 	
 
 func _on_a_1_pressed():
