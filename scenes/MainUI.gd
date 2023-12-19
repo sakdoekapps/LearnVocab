@@ -79,6 +79,8 @@ func _on_btn_refresh_question_pressed():
 	db.open_db()
 	db.query(sql)
 
+	native_word_list = []
+	foreign_word_list = []
 	
 	# load words into arrays (might be a way to just do this in one go?)
 	for i in db.query_result:
@@ -89,35 +91,44 @@ func _on_btn_refresh_question_pressed():
 	foreign_language = db.query_result[0]["foreign_language"]
 	
 	var q = randi_range(0,9)
-	question_word = foreign_word_list[q]
-	answer_word = native_word_list[q]
 	var answerindex = q
-	
+	question_word = foreign_word_list[answerindex]
+	answer_word = native_word_list[answerindex]
 	foreign_word_list.remove_at(q)
 	native_word_list.remove_at(q)
 	
 	var answer_list = []
 	answer_list.append(answer_word)
 	
-	# in 1 means 0 and 1 I think...
-	for i in range(2):
-		q = randi_range(0,native_word_list.size()-1)
-		answer_list.append(native_word_list[q])
-		native_word_list.remove_at(q)
+	# Add 2 wrong answers
+	answer_list.append(get_and_remove_random_item(native_word_list))
+	answer_list.append(get_and_remove_random_item(native_word_list))
 	
+	
+	submit_answer_list = []
 	submit_answer_list = answer_list.duplicate()
+	var button_answer_list = answer_list.duplicate()
+
+	# Assign text to buttons without modifying the original answer_list
+	$BaseHBox/BaseVBox/A1.text = get_and_remove_random_item(button_answer_list)
+	$BaseHBox/BaseVBox/A2.text = get_and_remove_random_item(button_answer_list)
+	$BaseHBox/BaseVBox/A3.text = get_and_remove_random_item(button_answer_list)
+	# Debug
 	$BaseHBox/BaseVBox/VSpace2.text = str(submit_answer_list)
 	
 	$BaseHBox/BaseVBox/Question.text = '\n[center]' + question_word + '\n [font_size=30]' + db.query_result[answerindex]["word_types"] + "[/font_size][/center]"
 	timeasked = Time.get_datetime_string_from_system(true)
 	
-	q = randi_range(0,answer_list.size()-1)
-	$BaseHBox/BaseVBox/A1.text = answer_list[q]
-	answer_list.remove_at(q)
-	q = randi_range(0,answer_list.size()-1)
-	$BaseHBox/BaseVBox/A2.text = answer_list[q]
-	answer_list.remove_at(q)
-	$BaseHBox/BaseVBox/A3.text = answer_list[0]
+
+
+	# ... (remaining code)
+
+# Helper function to get and remove a random item from a list
+func get_and_remove_random_item(list):
+	var index = randi_range(0, list.size() - 1)
+	var item = list[index]
+	list.remove_at(index)
+	return item
 	
 
 
@@ -133,7 +144,7 @@ func _on_btn_settings_pressed():
 
 func answer_pressed(caller):
 	var correct
-	print(caller.text + " " + answer_word)
+	print(question_word + " : \t Answer pressed : \t" + caller.text + " Correct Answer: \t" + answer_word)
 	if answer_word == caller.text:
 		caller.theme = correctUI
 		correct = true
